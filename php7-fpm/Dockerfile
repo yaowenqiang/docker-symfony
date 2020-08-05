@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
     procps \
     iproute2 \
     lsof \
-    nettools \
+    net-tools \
     telnet \
     netcat \
     fd-find
@@ -44,15 +44,22 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli
 
 
 # install xdebug
-RUN pecl install memcache \
-&& pecl install memcached \
-&& pecl install redis \
-&& pecl install xdebug \
+
+COPY extensions.txt extensions.txt
+RUN cat extensions.txt | xargs -t -n 1 -P 4 pecl install
+#  memcache \
+# && pecl install memcached \
+# && pecl install redis \
+# && pecl install xdebug \
 # && docker-php-ext-enable xdebug \
-&& docker-php-ext-enable memcache \
-&& docker-php-ext-enable redis \
-&& docker-php-ext-enable memcached \
-&& echo "error_reporting = E_WARNING" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# RUN docker-php-ext-enable memcache \
+# && docker-php-ext-enable redis \
+# && docker-php-ext-enable memcached \
+
+RUN cat extensions.txt | xargs -t  -n 1 -P 4 docker-php-ext-enable
+
+
+RUN echo "error_reporting = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 && echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 && echo "display_errors = Off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -61,7 +68,27 @@ RUN pecl install memcache \
 && echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
+# RUN pecl install memcache \
+# && pecl install memcached \
+# && pecl install redis \
+# && pecl install xdebug \
+# # && docker-php-ext-enable xdebug \
+# && docker-php-ext-enable memcache \
+# && docker-php-ext-enable redis \
+# && docker-php-ext-enable memcached \
+# && echo "error_reporting = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# && echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# && echo "display_errors = Off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# && echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# && echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+
 RUN echo 'alias sf="php app/console"' >> ~/.bashrc \
-&& echo 'alias sf3="php bin/console"' >> ~/.bashrc
+&& echo 'alias sf3="php bin/console"' >> ~/.bashrc \
+&& echo 'alias reload-fpm="kill -USR2 1"' >> ~/.bashrc
+
+# COPY extensions.txt extensions.txt
 
 WORKDIR /var/www/symfony
