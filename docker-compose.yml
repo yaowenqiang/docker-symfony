@@ -19,13 +19,20 @@ services:
             - ${SYMFONY_APP_PATH}:/var/www/symfony
             - ./logs/symfony:/var/www/symfony/app/logs
     nginx:
-        build: nginx
+        build: 
+            context: nginx
+            dockerfile: Dockerfile
         ports:
             - 80:80
+            - 443:443
         volumes_from:
             - php
+        cap_add: 
+            - ALL
         volumes:
             - ./logs/nginx/:/var/log/nginx
+            - ./nginx/crt:/usr/local/openresty/nginx/conf/crt
+            - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
     elk:
         image: willdurand/elk
         ports:
