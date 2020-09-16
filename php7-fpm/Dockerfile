@@ -5,7 +5,6 @@ ARG TIMEZONE
 MAINTAINER Maxence POUTORD <maxence.poutord@gmail.com>
 
 RUN echo "deb http://mirrors.aliyun.com/debian/ buster main non-free contrib" > /etc/apt/sources.list \
-vim
 && echo "deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib" >> /etc/apt/sources.list \
 && echo "deb http://mirrors.aliyun.com/debian-security buster/updates main" >> /etc/apt/sources.list \
 && echo "deb-src http://mirrors.aliyun.com/debian-security buster/updates main" >> /etc/apt/sources.list \
@@ -39,7 +38,11 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     iptables \
     neovim \
+    zsh \
+    curl \
     zlib1g-dev
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
