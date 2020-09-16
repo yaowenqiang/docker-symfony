@@ -33,6 +33,10 @@ services:
             - ./logs/nginx/:/var/log/nginx
             - ./nginx/crt:/usr/local/openresty/nginx/conf/crt
             - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+    adminer:
+        image: adminer
+        ports:
+            - 8080:8080
     elk:
         image: willdurand/elk
         ports:
