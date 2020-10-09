@@ -40,6 +40,9 @@ RUN apt-get update && apt-get install -y \
     neovim \
     zsh \
     curl \
+    dnsutils \
+    dstat \
+    wget \
     zlib1g-dev
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -118,5 +121,10 @@ RUN echo 'alias sf="php app/console"' >> ~/.bashrc \
 # COPY extensions.txt extensions.txt
 
 RUN echo "set-window-option -g mode-keys vi " > /root/.tmux.conf
+
+RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-19.03.9.tgz && \
+    tar -zxvf docker-19.03.9.tgz docker/docker && \
+    mv docker/docker /usr/bin/ && \
+    rm docker-19.03.9.tgz && rm -rf docker
 
 WORKDIR /var/www/symfony
