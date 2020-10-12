@@ -126,4 +126,8 @@ RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-19.03.9.t
     mv docker/docker /usr/bin/ && \
     rm docker-19.03.9.tgz && rm -rf docker
 
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+
 WORKDIR /var/www/symfony
