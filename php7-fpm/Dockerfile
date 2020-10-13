@@ -42,6 +42,8 @@ RUN echo "deb http://mirrors.aliyun.com/debian/ buster main non-free contrib" > 
     dnsutils \
     dstat \
     wget \
+    ipcalc \
+    sipcalc \
     zlib1g-dev
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
