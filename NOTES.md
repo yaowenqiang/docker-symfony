@@ -11,3 +11,5 @@
 
 > https://github.com/gliderlabs/logspout
 
+# jenkinsfile syntax check
+> curl --user admin:123456 -X POST -F "jenkinsfile=<Jenkinsfile" http://192.168.101.18:8080/pipeline-model-converter/validate

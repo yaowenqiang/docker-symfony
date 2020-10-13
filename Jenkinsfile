@@ -5,12 +5,13 @@ pipeline {
             steps {
                 sh 'php --version'
                 sh 'echo "hello world"'
-                sh ```
+                sh '''
                     echo "Multiline shell steps works too"
                                         ls -lah
-                ```
+                '''
             }
         }
+    }
     post {
         always {
             echo "bhild finished"
@@ -27,6 +28,5 @@ pipeline {
         changed {
             echo "changed"
         }
-    }
     }
 }
