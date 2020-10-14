@@ -1,5 +1,18 @@
+node {
+    checkout scm
+    def customImage = docker.build("my-image:latest")
+    customImage.inside {
+        sh 'subversion --version'
+        sh 'docker images'
+    }
+}
 pipeline {
-    agent { docker 'php' }
+    agent { 
+        docker {
+            image "php"
+            args "-v .:/var/www/symfony"
+        } 
+    }
     stages {
         stage('build') {
             steps {
